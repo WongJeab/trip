@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.RolePermMapper" >
+  <resultMap id="RolePermMap" type="com.cn.platform.managecenter.entity.system.RolePerm" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="PERM_ID" property="permId" jdbcType="INTEGER" />
+  </resultMap>
+
+
+  <insert id="bathAddRolePerm" parameterType="java.util.List">
+    insert into sys_role_perms ( ROLE_ID, PERM_ID)values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      (
+      #{item.roleId},#{item.permId}
+      )
+    </foreach>
+
+  </insert>
+  <select id="getPermIdByRoleId" resultType="java.lang.Integer" parameterType="map">
+    select  rp.PERM_ID  from sys_role_perms rp where rp.ROLE_ID=#{roleId}
+  </select>
+
+  <delete id="deletePermByRoleId" parameterType="java.lang.Integer">
+    delete   from sys_role_perms   where  ROLE_ID=#{roleId}
+  </delete>
+
+  <delete id="deleteRolePermByPermId" parameterType="java.lang.Integer">
+    delete   from sys_role_perms   where  PERM_ID=#{permId}
+  </delete>
+
+</mapper>

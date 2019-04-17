@@ -1,4 +1,4 @@
-package com.cn.platfrom.managecenter.trip;
+package com.cn.platform.managecenter.trip;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

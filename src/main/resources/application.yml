@@ -1,0 +1,87 @@
+#以下是测试和正式环境通用配置
+server:
+  port: 8088
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /trip/manageCenter
+spring:
+  profiles:
+    #默认用正式配置
+    active: test
+  mvc:
+    static-path-pattern: /static/**
+  freemarker:
+    request-context-attribute: request
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+
+---
+#正式环境配置
+
+spring:
+  profiles: pro
+  datasource:
+      def:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        initialSize: 20
+        max-active: 100
+        max-idle: 200
+        min-idle: 200
+        test-while-idle: true
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        jdbc-url: jdbc:mysql://133.37.126.12:3306/omp?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+        username: omp
+        password: Omp_user_6468
+      test:
+         driver-class-name: com.mysql.cj.jdbc.Driver
+         initialSize: 20
+         max-active: 100
+         max-idle: 200
+         min-idle: 200
+         test-while-idle: true
+         time-between-eviction-runs-millis: 60000
+         min-evictable-idle-time-millis: 300000
+         jdbc-url: jdbc:mysql://133.37.126.12:3306/omp?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+         username: omp
+         password: Omp_user_6468
+def:
+  MapperLocations: classpath:mapper/def/**/*.xml
+test:
+  MapperLocations: classpath:mapper/test/*.xml
+
+---
+#测试环境配置
+spring:
+  profiles: test
+  datasource:
+        def:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          initialSize: 20
+          max-active: 100
+          max-idle: 200
+          min-idle: 200
+          test-while-idle: true
+          time-between-eviction-runs-millis: 60000
+          min-evictable-idle-time-millis: 300000
+          jdbc-url: jdbc:mysql://127.0.0.1:3306/trip?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+          username: root
+          password: root
+        test:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          initialSize: 20
+          max-active: 100
+          max-idle: 200
+          min-idle: 200
+          test-while-idle: true
+          time-between-eviction-runs-millis: 60000
+          min-evictable-idle-time-millis: 300000
+          jdbc-url: jdbc:mysql://127.0.0.1:3306/trip?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+          username: root
+          password: root
+def:
+  MapperLocations: classpath:mapper/def/**/*.xml
+test:
+  MapperLocations: classpath:mapper/test/*.xml
+

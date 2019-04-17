@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.GroupMapper" >
+  <resultMap id="channelMap" type="com.cn.platform.managecenter.entity.system.Group" >
+        <id column="ID" property="id" jdbcType="INTEGER" />
+        <result column="PID" property="pId" jdbcType="INTEGER" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="CREATE_UID" property="createUId" jdbcType="INTEGER" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="UP_NAME" property="upName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getGroupByParms" resultMap="channelMap" parameterType="map">
+    select  <include refid="channel_common_column"/> from sys_group c
+    <where>
+         <if test="NAME!=null and NAME!='' ">
+             and c.NAME like concat('%',#{NAME},'%')
+         </if>
+    </where>
+  </select>
+
+
+   <select id="queryGroupListPage" parameterType="map" resultMap="channelMap">
+       select  <include refid="channel_common_column"/> from sys_group c
+     <where>
+         <if test="name!=null and name!='' ">
+             and c.NAME like concat('%',#{name},'%')
+         </if>
+     </where>
+       order by c.CREATE_TIME  desc
+     limit #{pageStart},#{pageEnd}
+   </select>
+
+  <select id="queryGroupCount" parameterType="map" resultType="long">
+    select  count(1)  from  sys_group c
+      <where>
+          <if test="NAME!=null and NAME!='' ">
+              and c.NAME like concat('%',#{NAME},'%')
+          </if>
+      </where>
+  </select>
+
+    <insert id="addGroup" parameterType="com.cn.platform.managecenter.entity.system.Group" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_group (PID,`NAME`,CREATE_UID,CREATE_TIME,UPDATE_TIME,STATUS,REMARK)values
+        (#{pId,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{createUId,jdbcType=VARCHAR},now(),now(),
+        #{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="updateGroup" parameterType="com.cn.platform.managecenter.entity.system.Group">
+      update sys_group c
+          <set>
+              c.UPDATE_TIME=now(),
+              <if test="pId!=null  and  pId!=''">
+                  c.PID=#{pId},
+              </if>
+              <if test="name!=null  and  name!=''">
+                  c.NAME=#{name},
+              </if>
+              <if test="status!=null  and  status!=''">
+                  c.STATUS=#{status},
+              </if>
+              <if test="remark!=null  and  remark!=''">
+                  c.REMARK=#{remark},
+              </if>
+          </set>
+        <where>
+            c.id=#{id}
+        </where>
+    </insert>
+
+    <delete id="deleteGroup" parameterType="java.lang.Integer">
+        delete from sys_group where id = #{id}
+    </delete>
+
+    <select id="queryGroupListAll" resultMap="channelMap">
+        select <include refid="channel_common_column"/> from sys_group c  order by c.CREATE_TIME desc
+    </select>
+
+    <select id="queryGroupById" parameterType="java.lang.Integer" resultMap="channelMap">
+        select <include refid="channel_common_column"/>,c2.name as UP_NAME from sys_group c
+        LEFT JOIN sys_group c2 on c.pid = c2.id where  c.id = #{id}
+    </select>
+
+  <sql id="channel_common_column">
+      c.ID,c.PID,c.`NAME`,c.CREATE_UID,c.CREATE_TIME,c.UPDATE_TIME,c.`STATUS`,c.REMARK
+  </sql>
+
+
+</mapper>

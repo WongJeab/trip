@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.UserMapper" >
+  <resultMap id="userMap" type="com.cn.platform.managecenter.entity.system.User" >
+    <id column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="NIKE_NAME" property="nikeName" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+
+
+  </resultMap>
+  <select id="getUserByParms" resultMap="userMap" parameterType="map">
+
+    select  <include refid="user_common_column"/> from sys_user u
+
+    <where>
+         <if test="userName!=null and userName!='' ">
+             and  (u.USER_NAME=#{userName} or u.phone=#{userName} )
+         </if>
+        <if test="userId!=null and userId!='' ">
+            and  u.USER_ID=#{userId}
+        </if>
+        <if test="phone!=null and phone!='' ">
+            and  u.PHONE=#{phone}
+        </if>
+            and   u.USER_TYPE=#{userType}
+    </where>
+
+  </select>
+    <select id="queryUserListPage" parameterType="map" resultMap="userMap">
+        SELECT  <include refid="user_common_column"/>,u1.name as GROUP_NAME from  sys_user u LEFT JOIN sys_group u1 on u.group_id = u1.ID
+        <where>
+            <if   test="userName !=null  and userName !=''">
+                and (u.USER_NAME like concat('%',#{userName},'%') or
+                u.phone like concat('%',#{userName},'%') )
+            </if>
+            <if   test="channelSql !=null  and channelSql !=''">
+                and  u.GROUP_ID  ${channelSql}
+            </if>
+            and  u.USER_TYPE=#{userType}
+        </where>
+        order by u.CREATE_TIME  desc
+        limit #{pageStart},#{pageEnd}
+    </select>
+
+    <select id="queryUserCount" parameterType="map" resultType="long">
+        select  count(1)  from  sys_user u
+        <where>
+            <if   test="userName !=null  and userName !=''">
+                and (u.USER_NAME like concat('%',#{userName},'%') or
+                u.phone like concat('%',#{userName},'%') )
+            </if>
+            <if   test="channelSql !=null  and channelSql !=''">
+                and u.GROUP_ID ${channelSql}
+            </if>
+            and   u.USER_TYPE=#{userType}
+        </where>
+
+
+    </select>
+
+
+    <select id="selectByUserNameAndPhone" resultMap="userMap" parameterType="map">
+        select  <include refid="user_common_column"/> from sys_user u
+        <where>
+            (u.USER_NAME=#{userName}
+            or u.PHONE=#{phone})
+            and   u.USER_TYPE=#{userType}
+        </where>
+    </select>
+
+
+    <insert id="saveUser" parameterType="com.cn.platform.managecenter.entity.system.User" useGeneratedKeys="true" keyProperty="userId">
+        insert into sys_user (USER_NAME,NIKE_NAME,PASSWORD,PHONE,EMAIL,CREATE_TIME,STATUS,REMARK,USER_TYPE,GROUP_ID)values
+        (#{userName,jdbcType=VARCHAR},#{nikeName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},now(),#{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR},#{groupId,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="updateUser" parameterType="com.cn.platform.managecenter.entity.system.User">
+      update sys_user u
+      <set>
+           u.UPDATE_TIME=now(),
+          <if test="nikeName!=null  and  nikeName!=''">
+              u.NIKE_NAME=#{nikeName},
+          </if>
+          <if test="userName!=null  and  userName!=''">
+              u.USER_NAME=#{userName},
+          </if>
+          <if test="password!=null  and  password!=''">
+              u.PASSWORD=#{password},
+          </if>
+          <if test="email!=null  and  email!=''">
+              u.EMAIL=#{email},
+          </if>
+          <if test="phone!=null  and  phone!=''">
+            u.PHONE=#{phone},
+          </if>
+          <if test="status!=null  and  status!=''">
+              u.STATUS=#{status},
+          </if>
+          <if test="remark!=null  and  remark!=''">
+              u.REMARK=#{remark},
+          </if>
+          <if test="userType!=null  and  userType!=''">
+              u.USER_TYPE=#{userType},
+          </if>
+          <if test="groupId!=null  and  groupId!=''">
+              u.GROUP_ID=#{groupId},
+          </if>
+      </set>
+        <where>
+            and u.USER_ID=#{userId}
+        </where>
+
+    </insert>
+      <update id="updateLastLoginTime" parameterType="integer">
+          update sys_user u set u.last_login_time=now()  where  u.user_id=#{userId}
+      </update>
+
+    <update id="updateUserGroup" parameterType="map">
+          update sys_user u set u.UPDATE_TIME=now(),u.GROUP_ID=#{groupId}  where  u.user_id=#{userId}
+    </update>
+
+  <sql id="user_common_column">
+      u.USER_ID, u.USER_NAME, u.NIKE_NAME, u.PASSWORD, u.PHONE, u.EMAIL, u.CREATE_TIME, u.UPDATE_TIME,
+    u.LAST_LOGIN_TIME, u.STATUS, u.REMARK,u.USER_TYPE
+
+  </sql>
+
+
+</mapper>

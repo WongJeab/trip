@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.PermsMapper" >
+  <resultMap id="permsMap" type="com.cn.platform.managecenter.entity.system.Perms" >
+    <id column="PERM_ID" property="permId" jdbcType="INTEGER" />
+    <result column="PERM" property="perm" jdbcType="VARCHAR" />
+    <result column="PERM_NAME" property="permName" jdbcType="VARCHAR" />
+    <result column="URI" property="uri" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UP_ID" property="upId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="UP_NAME" property="upName" jdbcType="VARCHAR" />
+    <result column="PERM_TYPE" property="permType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="perms_column_list" >
+    p.PERM_ID, p.PERM, p.PERM_NAME, p.URI, p.TYPE, p.CREATE_TIME, p.UPDATE_TIME, p.UP_ID, p.STATUS, p.REMARK,p.PERM_TYPE
+  </sql>
+  <sql id="queryPermsPageCommonWhere">
+    and   p.PERM_TYPE=#{permType}
+    <if test="permName !=null  and permName !=''">
+      and (P.PERM_NAME like concat('%',#{permName},'%') or p.PERM like concat('%',#{permName},'%') )
+
+    </if>
+
+  </sql>
+  <select id="selectAllPerms" resultMap="permsMap"  parameterType="map">
+    SELECT <include refid="perms_column_list"/>  from  sys_perms p
+    where p.PERM_TYPE=#{permType}
+    order by p.CREATE_TIME
+
+  </select>
+
+  <select id="getPermsByUserId" resultMap="permsMap" parameterType="int">
+
+    select <include refid="perms_column_list"/> from  sys_user_role ur,sys_role_perms rp,sys_perms p
+     where  ur.ROLE_ID=rp.ROLE_ID AND rp.PERM_ID= p.PERM_ID
+           and  ur.USER_ID=#{userId}
+  </select>
+  <select id="queryPermListPage" parameterType="map" resultMap="permsMap">
+    select <include refid="perms_column_list"/>  from sys_perms p
+    <where>
+      <include refid="queryPermsPageCommonWhere"/>
+    </where>
+    order by p.CREATE_TIME DESC
+    limit #{pageStart},#{pageEnd}
+  </select>
+
+  <select id="queryPermCount" parameterType="map" resultType="long">
+    select count(1)  from  sys_perms p
+     <where>
+       <include refid="queryPermsPageCommonWhere"/>
+     </where>
+  </select>
+
+  <select id="getPermsByParms" parameterType="map" resultMap="permsMap">
+    select  <include refid="perms_column_list"/>  ,p1.PERM_NAME as UP_NAME   from sys_perms p left join sys_perms p1 on p.UP_ID=p1.PERM_ID
+    <where>
+      and   p.PERM_TYPE=#{permType}
+      <if test="perm !=null and perm !=''"> and  p.PERM=#{perm}</if>
+      <if test="permId !=null"> and p.PERM_ID=#{permId}</if>
+
+    </where>
+  </select>
+
+  <select id="getPermsByRoleId" resultType="com.cn.platform.managecenter.entity.system.Perms"></select>
+  
+  <insert id="savePerms" parameterType="com.cn.platform.managecenter.entity.system.Perms">
+     insert into  sys_perms(PERM,PERM_NAME,URI,TYPE,CREATE_TIME,UP_ID,STATUS,REMARK,PERM_TYPE)
+     values(#{perm,jdbcType=VARCHAR},#{permName,jdbcType=VARCHAR},#{uri,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},now(),#{upId,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{permType} )
+
+  </insert>
+
+  <update id="updatePerms" parameterType="com.cn.platform.managecenter.entity.system.Perms" >
+    update sys_perms p
+    <set>
+      p.UPDATE_TIME=now(),
+      <if test="perm !=null and perm !=''">   p.PERM =#{perm},</if>
+      <if test="permName !=null and permName !=''">  p.PERM_NAME =#{permName},</if>
+      <if test="uri !=null and  uri !=''">   p.URI =#{uri},</if>
+      <if test=" type !=null  and  type !=''"> p.TYPE=#{type},</if>
+      <if test=" upId !=null  and  upId !=''">  p.UP_ID=#{upId},</if>
+
+      <if test=" status !=null  and  status !=''">  p.STATUS=#{status},</if>
+
+      <if test=" remark !=null  and  remark !=''">  p.REMARK=#{remark},</if>
+    </set>
+     <where> and p.PERM_ID=#{permId} </where>
+
+  </update>
+  <delete id="deletePermsByPermId" parameterType="java.lang.Integer">
+    delete  from  sys_perms where  PERM_ID=#{permId}
+
+  </delete>
+
+
+
+</mapper>

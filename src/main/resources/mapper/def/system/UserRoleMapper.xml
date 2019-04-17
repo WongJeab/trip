@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.UserRoleMapper" >
+  <resultMap id="userRoleMap" type="com.cn.platform.managecenter.entity.system.userRole" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <!-- 批量添加角色 -->
+  <insert id="bathAddUserRole" parameterType="java.util.List">
+    insert into sys_user_role (USER_ID , ROLE_ID)values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      (
+      #{item.userId},#{item.roleId}
+      )
+    </foreach>
+  </insert>
+  <!-- 删除用户角色 -->
+  <delete id="deleteUserRoleByParms" parameterType="map">
+    delete from sys_user_role
+    <where>
+      <if test="userId !=null "> and  user_id=#{userId}</if>
+      <if test="roleId !=null "> and  role_id=#{roleId}</if>
+    </where>
+  </delete>
+
+</mapper>

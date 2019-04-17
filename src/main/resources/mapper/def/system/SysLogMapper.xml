@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.SysLogMapper" >
+  <resultMap id="sysLogMap" type="com.cn.platform.managecenter.entity.system.SysLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="http_method" property="httpMethod" jdbcType="VARCHAR" />
+    <result column="is_ajax" property="isAjax" jdbcType="VARCHAR" />
+    <result column="remote_addr" property="remoteAddr" jdbcType="VARCHAR" />
+    <result column="remote_host" property="remoteHost" jdbcType="VARCHAR" />
+    <result column="request_method" property="requestMethod" jdbcType="VARCHAR" />
+    <result column="request_parameter" property="requestParameter" jdbcType="VARCHAR" />
+    <result column="request_uri" property="requestUri" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="log_type" property="logType" jdbcType="VARCHAR" />
+    <result column="use_time" property="useTime" jdbcType="INTEGER" />
+
+  </resultMap>
+
+  <insert id="save" parameterType="com.cn.platform.managecenter.entity.system.SysLog" >
+    insert into sys_log ( create_time, http_method,
+      is_ajax, remote_addr, remote_host, 
+      request_method, request_parameter, request_uri, 
+      result, user_id, log_type,use_time
+      )
+    values ( now(), #{httpMethod,jdbcType=VARCHAR},
+      #{isAjax,jdbcType=VARCHAR}, #{remoteAddr,jdbcType=VARCHAR}, #{remoteHost,jdbcType=VARCHAR}, 
+      #{requestMethod,jdbcType=VARCHAR}, #{requestParameter,jdbcType=VARCHAR}, #{requestUri,jdbcType=VARCHAR}, 
+      #{result,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{logType,jdbcType=VARCHAR}, #{useTime,jdbcType=INTEGER}
+      )
+  </insert>
+
+</mapper>

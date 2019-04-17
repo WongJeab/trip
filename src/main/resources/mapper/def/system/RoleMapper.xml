@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.system.RoleMapper" >
+  <resultMap id="RoleMap" type="com.cn.platform.managecenter.entity.system.Role" >
+    <id column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
+    <result column="ROLE" property="role" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ROLE_TYPE" property="roleType" jdbcType="VARCHAR" />
+
+
+  </resultMap>
+  <sql id="roleColumnList" >
+    r.ROLE_ID, r.ROLE, r.ROLE_NAME, r.CREATE_TIME, r.UPDATE_TIME, r.STATUS, r.REMARK,r.ROLE_TYPE
+  </sql>
+  <sql id="queryListPageCommonWhere" >
+    <if   test="roleName !=null  and roleName !=''">
+      and (r.ROLE_NAME like concat('%',#{roleName},'%') or r.ROLE like concat('%',#{roleName},'%') )
+    </if>
+    and  r.ROLE_TYPE=#{roleType}
+  </sql>
+  <select id="getRolesByUserId" parameterType="int" resultMap="RoleMap">
+
+    SELECT <include refid="roleColumnList"/>  from  sys_role r, sys_user_role ur
+    <where>
+        ur.ROLE_ID=r.ROLE_ID
+         and ur.USER_ID=#{userId}
+    </where>
+
+  </select>
+  <select id="getAllRoles" parameterType="map" resultMap="RoleMap">
+
+    SELECT <include refid="roleColumnList"/>  from  sys_role r
+    <where>
+     and  r.ROLE_TYPE=#{roleType}
+    </where>
+
+  </select>
+  <select id="queryRoleListPage" parameterType="map" resultMap="RoleMap">
+       SELECT <include refid="roleColumnList"/>  from  sys_role r
+    <where>
+      <include refid="queryListPageCommonWhere"/>
+
+    </where>
+    order by r.CREATE_TIME  desc
+    limit #{pageStart},#{pageEnd}
+  </select>
+
+  <select id="queryRoleCount" parameterType="map" resultType="long">
+    SELECT   count(1)  from  sys_role r
+    <where>
+      <include refid="queryListPageCommonWhere"/>
+
+    </where>
+  </select>
+  <select id="getRoleByParms" parameterType="map" resultMap="RoleMap">
+
+    SELECT <include refid="roleColumnList"/>  from  sys_role r
+    <where>
+           and r.ROLE_TYPE=#{roleType}
+
+      <if test="role !=null and role !=''">
+            and  r.ROLE=#{role}
+      </if>
+        <if test="roleId !=null and roleId !=''">
+            and  r.ROLE_ID=#{roleId}
+        </if>
+
+    </where>
+  </select>
+  <insert id="saveRole" parameterType="com.cn.platform.managecenter.entity.system.Role" useGeneratedKeys="true" keyProperty="roleId">
+     insert into sys_role ( ROLE, ROLE_NAME, CREATE_TIME, STATUS, REMARK,ROLE_TYPE)
+     values(#{role,jdbcType=VARCHAR},#{roleName,jdbcType=VARCHAR},now(),#{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{roleType,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateRole" parameterType="com.cn.platform.managecenter.entity.system.Role">
+        update sys_role r
+        <set>
+            r.UPDATE_TIME=now(),
+          <if test="role !=null and role !=''">  r.ROLE=#{role},</if>
+          <if test="roleName !=null  and roleName!=''"> r.ROLE_NAME=#{roleName},</if>
+          <if test="status !=null and  status !=''">  r.STATUS=#{status},</if>
+          <if test="remark !=null and  remark !=''">  r.REMARK=#{remark},</if>
+
+        </set>
+     <where>
+        and  r.ROLE_ID=#{roleId}
+         and r.ROLE_TYPE=#{roleType}
+     </where>
+  </update>
+  <delete id="deleteByRoleId" parameterType="com.cn.platform.managecenter.entity.system.Role" >
+        delete  from  sys_role   where   ROLE_TYPE=#{roleType}
+          and ROLE_ID=#{roleId}
+
+  </delete>
+
+
+</mapper>
