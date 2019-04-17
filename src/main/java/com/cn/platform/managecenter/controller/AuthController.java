@@ -126,7 +126,8 @@ public class AuthController extends BaseController {
         // 生成随机类
         Random random = new Random();
         // 设定背景色
-        g.setColor(getRandColor(220, 250));
+        g.setColor(new Color(139,201,242));
+        //g.setColor(getRandColor(220, 250));
         g.fillRect(0, 0, width, height);
         // 设定字体
         g.setFont(new Font("Arial", Font.PLAIN, 24));

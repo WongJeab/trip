@@ -21,54 +21,62 @@
     <link rel="stylesheet" href="${base}/static/assets/css/ace-rtl.css?t=es5i5" />
     <!--添加修改文件-->
     <link rel="stylesheet" href="${base}/static/assets/css/jui.css" />
-
 </head>
-
 <body class="jui-login">
 <div class="jui-fixed-with">
     <div class="jui-table">
         <div class="jui-table-middle">
+            <div class="jui-login-bottom" style="height: 12.3%">
+            </div>
             <div class="jui-login-container">
-                <div class="center">
-                    <img src="${base}/static/assets/images/logo2.png?t=es5i5">
-                </div>
-                <div class="center jui-logi-pb20">
-                    <h1 class="white jui-letter">新东网监控中心后台管理系统</h1>
-                    <h5 class="white">Cloud computing  are changing the enterprise</h5>
-                </div>
-                <form id="login"  class="layui-form">
-                    <fieldset>
-                        <label class="block clearfix form-group">
+                <div style="width: 350px;margin-left: 55%">
+                    <div class="center">
+                        <img src="${base}/static/assets/images/logo2.png?t=es5i5">
+                    </div>
+                    <form id="login"  class="layui-form">
+                        <fieldset>
+                            <label class="block clearfix form-group">
 								<span class="block input-icon input-icon-right">
 									<input type="text" class="form-control" required   id="userId" placeholder="请输入您的账号" />
 									<i class="ace-icon fa fa-user"></i>
 								</span>
-                        </label>
+                            </label>
 
-                        <label class="block clearfix form-group">
+                            <label class="block clearfix form-group">
 								<span class="block input-icon input-icon-right">
 									<input type="password" class="form-control" required   id="userPwd" placeholder="请输入您的密码" />
 									<i class="ace-icon fa fa-lock"></i>
 								</span>
-                        </label>
+                            </label>
 
-                        <label class="block clearfix form-group">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8 col-xs-8">
+                            <label class="block clearfix form-group">
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-8 col-xs-8">
 								  	<span class="block input-icon input-icon-right">
 										<input type="text" class="form-control"    id="userCode" placeholder="请输入您的验证码" />
 									</span>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 login-code-box">
+                                        <img src="${base}/randomImg?t=es5i5" id="randomImg" onclick="changeYzmCode()">
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4 login-code-box">
-                                    <img src="${base}/randomImg?t=es5i5" id="randomImg" onclick="changeYzmCode()">
-                                </div>
-                            </div>
-                        </label>
-
-                        <button type="button" lay-filter="demo2"  id="loginBtn"class="jui-btn">登陆</button>
-
-                    </fieldset>
-                </form>
+                            </label>
+                            <button type="button" lay-filter="demo2"  id="loginBtn"class="jui-btn">登陆</button>
+                            <p style="text-align: right"><a href="##">忘记密码？</a></p>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="jui-login-bottom" style="height: 20%">
+                <div class="display" style="display: block;width: 100%;height: 100%">
+                    <div class="" style="display: block;width: 100%;height: 100%;text-align: center;padding-top: 5%">
+                        <a href="##" target="_blank">关于我们</a>
+                        <span class="">|</span>
+                        <a href="#" class="">联系我们</a>
+                        <span class="">|</span>
+                        <a href="#" class="">使用帮助</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
