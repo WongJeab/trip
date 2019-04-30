@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title></title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="../assets/css/bootstrap.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.css?t=es5i5" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../assets/css/bootstrap-duallistbox.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/bootstrap-multiselect.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/select2.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/datepicker.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/bootstrap-timepicker.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/daterangepicker.css?t=es5i5" />
+		
+	
+		<!-- text fonts -->
+		<link rel="stylesheet" href="../assets/css/ace-fonts.css?t=es5i5" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../assets/css/ace.css?t=es5i5" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="../assets/css/ace-part2.css?t=es5i5" class="ace-main-stylesheet" />
+		<![endif]-->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="../assets/css/ace-ie.css?t=es5i5" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="../assets/js/ace-extra.min.js?t=es5i5"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="../assets/js/html5shiv.js"></script>
+		<script src="../assets/js/respond.js"></script>
+		<![endif]-->
+
+		<!--添加修改文件-->
+		<link rel="stylesheet" href="../assets/css/jui.css" />
+	</head>
+<body style="background-color:#fff" class="jui-black-theme">
+<div class="form-horizontal">
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">普通下拉</label>
+	<div class="pull-left jui-form-group-content">
+		<select class="jui-btn-select"> 
+		    <option value="猪猡兽">猪猡兽</option>
+		    <option value="吕布">吕布</option>
+		</select>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">联动</label>
+	<div class="pull-left jui-form-group-content">
+		<select class="jui-btn-select" id="classSelect"> 
+		    <option value="海鲜">海鲜</option>
+		    <option value="家禽">家禽</option>
+		</select>
+	</div>
+	<div class="pull-left jui-form-group-content control-label">-</div>
+	<div class="pull-left jui-form-group-content">
+		<select class="jui-btn-select" id="classSelectC"> 
+		    <option value="虾">虾</option>
+		    <option value="鱼">鱼</option>
+		</select>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">日期选择只显示本月</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<input class="typeahead scrollable" id="datepicker1" type="text"/>
+		</div>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">日期选择默认</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<input class="typeahead scrollable" id="datepicker2" type="text"/>
+		</div>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">日期显示月年选择</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<input class="typeahead scrollable" id="datepicker3" type="text"/>
+		</div>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">日期显示多个</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<input class="typeahead scrollable" id="datepicker4" type="text"/>
+		</div>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">可选日期</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<input class="typeahead scrollable" id="datepicker5" type="text"/>
+		</div>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">时间</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<input class="typeahead scrollable" id="datepicker6" type="text"/>
+		</div>
+	</div>
+</div>
+
+<div class="jui-form-group clearfix">
+	<label class="pull-left control-label">带图标样式</label>
+	<div class="pull-left jui-form-group-content">
+		<div class="pos-rel">
+			<label class="jui-date" >
+				<input class="typeahead scrollable" id="datepicker7" type="text"/>				
+			</label>
+		</div>
+	</div>
+</div>
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../assets/js/jquery.min.js?t=es5i5"></script>
+<script type="text/javascript" src="../assets/js/bootstrap.min.js?t=es5i5"></script>
+<script type="text/javascript" src="../assets/js/date-time/moment.min.js?t=es5i5"></script>
+<script type="text/javascript" src="../assets/js/date-time/bootstrap-datepicker.min.js?t=es5i5"></script>
+<script type="text/javascript" src="../assets/js/date-time/bootstrap-datetimepicker.min.js?t=es5i5"></script><!-- 日期时间 -->
+<script type="text/javascript" src="../assets/js/date-time/bootstrap-timepicker.min.js?t=es5i5"></script><!-- 时间 -->
+<script type="text/javascript" src="../assets/js/tmd.js?t=es5i5"></script>
+<!-- jQuery UI插件 包含美化下拉 日期选择-->
+<link rel="stylesheet" href="../assets/css/jquery-ui.css?t=es5i5" />
+<script type="text/javascript" src="../assets/js/jquery-ui.min.js?t=es5i5"></script>
+<script>
+	//调用日期插件 完成攻略http://www.bootcss.com/p/bootstrap-datetimepicker/
+		$( "#datepicker1" ).datepicker({
+					showOtherMonths: true,
+					selectOtherMonths: false,
+				});
+		$( "#datepicker2" ).datepicker();
+		$( "#datepicker3" ).datepicker({//出现下拉选择
+			changeMonth: true,
+      		changeYear: true
+		});
+		$( "#datepicker4" ).datepicker({//显示多个月份选择
+	      numberOfMonths: 3,
+    	});
+    	$('#datepicker5').datetimepicker()//bootstrap添加的日期
+    	$('#datepicker6').timepicker({//bootstrap添加的时间
+					minuteStep: 1,
+					showSeconds: true,
+					showMeridian: false
+				})
+    	$('#datepicker7').timepicker({//bootstrap添加的时间
+					minuteStep: 1,
+					showSeconds: true,
+					showMeridian: false
+				})
+	//下拉框插件启用
+		$( ".jui-btn-select" ).css('width', '150px').selectmenu();
+		//联级多选
+		var arr1 = [{
+			label:'鸡',
+			value:'鸡'
+			},
+			{
+			label:'鸭',
+			value:'鸭'
+		}],
+		 arr2 = [{
+			label:'虾',
+			value:'虾'
+			},
+			{
+			label:'鱼',
+			value:'鱼'
+		}];
+		$("#classSelect").selectmenu({
+			change: function(e, object){
+				var val = object.item.value;
+				var options = '',
+					opationsData;
+        		if(val == "海鲜"){
+        			opationsData = arr2;
+        		}else{
+        			opationsData = arr1;
+        		}
+        		for(item in opationsData){
+        			options += "<option value='"+opationsData[item].label+"'>"+opationsData[item].value+"</option>"
+        		}
+        		$("#classSelectC").html(options);
+        		$("#classSelectC").selectmenu("refresh");//这是新初始化对应的select
+		    }
+		})
+</script>

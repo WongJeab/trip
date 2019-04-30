@@ -40,7 +40,7 @@ public class LoginSessionFilter extends AdviceFilter {
         if( requestURI.contains("actuator/health")){
             return true;
         }
-        if (sysUser != null && ShiroUtil.sha256Hash(Md5Util.getMD5Str(CommonConstant.DEFAULT_PWD)).equals(sysUser.getPassword())) {
+        if (sysUser != null && ShiroUtil.sha256Hash(Md5Util.MD5Encode(CommonConstant.DEFAULT_PWD)).equals(sysUser.getPassword())) {
             if (requestURI.contains("system/user/updatePwdPage") || requestURI.contains("system/user/updateUserPwd")|| requestURI.contains("login")
             ||requestURI.contains("randomImg")|| requestURI.contains("static")) {
             }else{

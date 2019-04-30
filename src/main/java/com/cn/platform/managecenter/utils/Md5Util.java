@@ -8,13 +8,14 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Md5Util {
     public static void main(String[] args) {
-        System.out.println(Md5Util.getMD5Str("123456"));
+        System.out.println(Md5Util.MD5Encode("123456"));
+        System.out.println(Md5Util.MD5Encode("123456",2));
     }
-    public static  String getMD5Str(String  pwd){
+    public static  String MD5Encode(String  enStr){
         try {
             // 得到一个信息摘要器
             MessageDigest digest = MessageDigest.getInstance("md5");
-            byte[] result = digest.digest(pwd.getBytes());
+            byte[] result = digest.digest(enStr.getBytes());
             StringBuffer buffer = new StringBuffer();
             // 把每一个byte 做一个与运算 0xff;
             for (byte b : result) {
@@ -33,4 +34,13 @@ public class Md5Util {
         }
 
     }
+
+    public static  String MD5Encode(String  enStr,int times){
+        String tempStr = enStr;
+        for (int i=0;i<times;i++) {
+            tempStr = MD5Encode(tempStr);
+        }
+       return tempStr;
+    }
+
 }

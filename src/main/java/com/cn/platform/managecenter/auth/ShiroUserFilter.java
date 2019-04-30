@@ -14,7 +14,6 @@ import javax.servlet.ServletResponse;
 public class ShiroUserFilter extends AccessControlFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-
         saveRequestAndRedirectToLogin(request, response);
         return false;
     }

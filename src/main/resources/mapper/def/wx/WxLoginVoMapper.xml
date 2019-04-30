@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.wx.WxLoginVoMapper" >
+    <resultMap id="wxLoginMap" type="com.cn.platform.managecenter.entity.wx.WxLoginVo" >
+      <result property="id" column="id" javaType="BIGINT"/>
+      <result property="loginId" column="loginId" javaType="BIGINT"/>
+      <result property="firstLoginTime" column="firstLoginTime" javaType="DATE"/>
+      <result property="lastLoginTime" column="lastLoginTime" javaType="DATE"/>
+      <result property="expireTime" column="expireTime" javaType="BIGINT"/>
+      <result property="uuid" column="uuid" javaType="VARCHAR"/>
+      <result property="sysTime" column="sysTime" javaType="BIGINT"/>
+      <result property="loginToken" column="loginToken" javaType="VARCHAR"/>
+      <result property="apiToken" column="apiToken" javaType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="wxLogin_column">
+        u.id,u.loginId,u.firstLoginTime,u.lastLoginTime,u.expireTime,u.uuid,u.sysTime,u.loginToken,u.apiToken
+    </sql>
+
+    <insert id="addWxLogin" parameterType="com.cn.platform.managecenter.entity.wx.WxLoginVo">
+        INSERT into trip_wx_login(loginId,firstLoginTime,lastLoginTime,expireTime,uuid,sysTime,loginToken,apiToken) VALUES(
+        #{loginId,javaType=BIGINT},now(),now(),#{expireTime,javaType=BIGINT},#{uuid,javaType=VARCHAR},
+        #{sysTime,javaType=BIGINT},#{loginToken,javaType=VARCHAR},#{apiToken,javaType=VARCHAR})
+    </insert>
+
+    <update id="updateWxLogin"  parameterType="com.cn.platform.managecenter.entity.wx.WxLoginVo">
+        update trip_wx_login set
+        loginId = #{loginId,javaType=BIGINT},
+        lastLoginTime = now(),
+        expireTime = #{expireTime,javaType=BIGINT}n
+        uuid = #{uuid,javaType=VARCHAR}n
+        sysTime = #{loginToken,javaType=BIGINT}n
+        loginToken = #{loginToken,javaType=VARCHAR}n
+        apiToken = #{apiToken,javaType=VARCHAR}
+        where id =  #{id,javaType=BIGINT}
+    </update>
+    <delete id="deleteWxLogin" parameterType="long">
+        delete from trip_wx_login where id = #{id}
+    </delete>
+    <sql id="qry_where">
+        <if test="id != null and id != ''">
+            u.id = #{id}
+        </if>
+        <if test="loginId != null and loginId != ''">
+            u.loginId = #{loginId}
+        </if>
+        <if test="loginToken != null and loginToken != ''">
+            u.loginToken = #{loginToken}
+        </if>
+        <if test="apiToken != null and apiToken != ''">
+            u.apiToken = #{apiToken}
+        </if>
+    </sql>
+
+    <select id="qryWxLoginListPara" parameterType="map" resultMap="wxLoginMap">
+        select <include refid="wxLogin_column"/>  from trip_wx_login u
+        <where>
+            <include refid="qry_where"/>
+        </where>
+        order by u.firstLoginTime DESC
+        <if test="pageEnd!=null and pageEnd!=''">
+            limit #{pageStart},#{pageEnd}
+        </if>
+    </select>
+
+    <select id="qryWxLoginPage" parameterType="map" resultMap="wxLoginMap">
+        select <include refid="wxLogin_column"/>  from trip_wx_login u
+        <where>
+            <include refid="qry_where"/>
+        </where>
+        order by u.firstLoginTime DESC
+        <if test="pageEnd!=null and pageEnd!=''">
+            limit #{pageStart},#{pageEnd}
+        </if>
+    </select>
+
+    <select id="qryWxLoginCount" resultType="java.lang.Long">
+        select count(1)  from trip_wx_login u
+        <where>
+            <include refid="qry_where"/>
+        </where>
+        order by u.firstLoginTime DESC
+    </select>
+
+</mapper>

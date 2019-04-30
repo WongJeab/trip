@@ -85,6 +85,9 @@ public class ShiroFilerChainManager {
 
         filterChainDefinitionMap.put("/static/**", "anon");
 
+        /*不拦截小程序请求*/
+        filterChainDefinitionMap.put("/wx/**", "anon");
+
         Map<String,Object> map = new HashMap<>();
         map.put("permType", CommonConstant.CONTROL_DATA_TYPE);
         List<Perms> perms = permsService.selectAllPerms(map);

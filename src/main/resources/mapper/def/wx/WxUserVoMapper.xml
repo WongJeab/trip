@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.platform.managecenter.dao.def.wx.WxUserVoMapper" >
+  <resultMap id="wxUserMap" type="com.cn.platform.managecenter.entity.wx.WxUserVo" >
+      <result property="id" column="id" javaType="BIGINT"/>
+      <result property="city" column="city" javaType="VARCHAR"/>
+      <result property="province" column="province" javaType="VARCHAR"/>
+      <result property="nickname" column="nickname" javaType="VARCHAR"/>
+      <result property="phone" column="phone" javaType="VARCHAR"/>
+      <result property="pwd" column="pwd" javaType="VARCHAR"/>
+      <result property="name" column="name" javaType="VARCHAR"/>
+      <result property="createTime" column="createTime" javaType="Date"/>
+      <result property="remark" column="remark" javaType="VARCHAR"/>
+  </resultMap>
+
+    <sql id="wxUser_column">
+        u.id,u.city,u.province,u.phone,u.nickname,u.`name`,u.pwd,u.createTime,u.remark
+    </sql>
+
+    <insert id="addWxUser" parameterType="com.cn.platform.managecenter.entity.wx.WxUserVo" useGeneratedKeys="true" keyProperty="wxUserVo.id">
+        insert into trip_wx_user(city,province,phone,nickname,`name`,pwd,createTime,remark)
+        values (#{city,javaType=VARCHAR},#{province,javaType=VARCHAR},#{phone,javaType=VARCHAR},
+        #{nickname,javaType=VARCHAR},#{name,javaType=VARCHAR},#{pwd,javaType=VARCHAR},now(),#{remark,javaType=VARCHAR},)
+    </insert>
+
+    <update id="updateWxUser" parameterType="com.cn.platform.managecenter.entity.wx.WxUserVo">
+        update trip_wx_user set
+        phone = #{phone,javaType=BIGINT},
+        `name` = #{name,javaType=VARCHAR},
+        pwd = #{pwd,javaType=BIGINT},
+        remark = #{remark,javaType=VARCHAR}
+        where id =  #{id,javaType=BIGINT}
+    </update>
+    <delete id="deleteWxUser">
+         delete from trip_wx_user where id = #{id}
+    </delete>
+
+    <sql id="qry_where">
+        <if test="id != null and id != ''">
+            u.id = #{id}
+        </if>
+        <if test="phone != null and phone != ''">
+            u.phone = #{phone}
+        </if>
+        <if test="pwd != null and pwd != ''">
+            u.pwd = #{pwd}
+        </if>
+        <if test="name != null and name != ''">
+            u.name like concat('%',#{concat},'%')
+        </if>
+        <if test="nickname != null and nickname != ''">
+            u.name like concat('%',#{nickname},'%')
+        </if>
+    </sql>
+    <select id="qryWxUserListPara" parameterType="map" resultMap="wxUserMap">
+        select <include refid="wxUser_column"/>  from trip_wx_user u
+        <where>
+            <include refid="qry_where"/>
+        </where>
+        order by u.createTime DESC
+        <if test="pageEnd!=null and pageEnd!=''">
+            limit #{pageStart},#{pageEnd}
+        </if>
+    </select>
+
+    <select id="qryWxUserPage" parameterType="map" resultMap="wxUserMap">
+        select <include refid="wxUser_column"/>  from trip_wx_user u
+        <where>
+            <include refid="qry_where"/>
+        </where>
+        order by u.createTime DESC
+        <if test="pageEnd!=null and pageEnd!=''">
+            limit #{pageStart},#{pageEnd}
+        </if>
+    </select>
+
+    <select id="qryWxUserCount" resultType="java.lang.Long">
+        select count(1)  from trip_wx_login u
+        <where>
+            <include refid="qry_where"/>
+        </where>
+        order by u.createTime DESC
+    </select>
+
+
+</mapper>

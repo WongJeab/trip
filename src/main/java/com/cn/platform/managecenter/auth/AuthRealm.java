@@ -27,10 +27,6 @@ public class AuthRealm extends AuthorizingRealm {
     //认证.登录
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-
-
-
-
         UsernamePasswordToken utoken=(UsernamePasswordToken) token;//获取用户输入的token
         String username = utoken.getUsername();
         if(StringUtils.isBlank(username)){//账户不存在

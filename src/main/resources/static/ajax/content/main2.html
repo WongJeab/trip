@@ -1,0 +1,254 @@
+<div class="jui-page">
+	<!-- 内容 -->
+	<!-- 查询条件 -->
+	<div class="page-content" transition>
+		<div class="jui-search-icon"></div>
+		<!-- /.page-form -->
+		<form class="form-horizontal jui-mini-control" role="form">
+			<div class="jui-form-group clearfix">
+				<div class="col-sm-4">
+					<label class="pull-left control-label">下单时间</label>
+					<div class="pull-left jui-form-group-content">
+						<div class="pos-rel">
+							<input class="typeahead scrollable min-input" type="text"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<label class="pull-left control-label">订单编号</label>
+				<div class="pull-left jui-form-group-content">
+					<div class="pos-rel">
+						<input class="typeahead scrollable min-input" type="text"/>
+					</div>
+				</div>
+				</div>
+				<div class="col-sm-4">
+					<label class="pull-left control-label">收货人电话</label>
+				<div class="pull-left jui-form-group-content">
+					<div class="pos-rel">
+						<input class="typeahead scrollable min-input" type="text"/>
+					</div>
+				</div>
+				</div>
+				
+			</div>
+			<div class="jui-form-group clearfix">
+				<div class="col-sm-4">
+					<label class="pull-left control-label">分类选项</label>
+					<div class="pull-left jui-form-group-content">
+						<select class="jui-btn-select"> 
+						      <option value="部门1">A</option>
+						    <option value="部门2">B</option>
+						    <option value="部门3">C</option>
+						    <option value="部门4">D</option>
+						    <option value="部门5">E</option>
+						</select>
+					</div>
+				</div>
+				<div class="pull-left align-center no-padding">
+					<button type="button" class="btn btn-info">查询</button>
+					<button type="button" class="btn btn-warning">导出</button>
+					<button type="button" class="btn btn-lightgreen">SQL</button>
+					<button type="button" class="btn btn-danger">口径说明</button>
+				</div>
+			</div>
+
+			
+		</form>
+		<!-- /.page-form -->
+	</div>
+	<!-- 报表 -->
+	<div class="page-content margin-top">
+		<div class="jui-control-menu">
+			<a class="jui-menu-item jui-theme-btn"><i class="ace-icon fa fa-bars"></i></a>
+			<a class="jui-menu-item jui-theme-btn"><i class="ace-icon fa fa-bar-chart"></i></a>
+			<a class="jui-menu-item jui-theme-btn ative"><i class="ace-icon fa fa-th-large"></i></a>
+		</div>
+		<table class="jui-theme-table margin-top table-hover" id="table-main">
+			<colgroup>
+				<col style="width:30%;min-width: 30%;"></col>
+				<col style="width:70%;min-width: 70%;"></col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>地市</th>
+					<th>支付金额</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>呼尔浩特</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+				<tr>
+					<td>呼尔浩特</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+				<tr>
+					<td>厦门</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+				<tr>
+					<td>厦门</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+				<tr>
+					<td>厦门</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+				<tr>
+					<td>厦门</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+				<tr>
+					<td>厦门</td>
+					<td>2016-12-13  23:00</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- 图表 -->
+		<div style="padding-top: 10px;" id="chart-main">
+			<div id="echarts" style="width: 100%;height: 500px;"></div>
+		</div>
+		<!-- 图表 -->
+	</div>
+	
+	</div>
+	<!-- 内容 -->
+</div>
+<script>
+$(function(){
+		$(".jui-control-menu .jui-menu-item").click(function(){
+			var i = $(".jui-control-menu .jui-menu-item").index(this);
+			$(this).addClass("active").siblings().removeClass("active")
+			switch(i){
+				case 0:
+				$("#chart-main").hide();
+				$("#table-main").hide();
+				setTimeout(function(){
+					$("#table-main").fadeIn();
+				},30)
+				break;
+				case 1:
+				$("#chart-main").hide();
+				$("#table-main").hide();
+				setTimeout(function(){
+					$("#chart-main").fadeIn();
+				},30)
+				break;
+				case 2:
+					$("#chart-main").hide();
+					$("#table-main").hide();
+				setTimeout(function(){
+					$("#chart-main").fadeIn();
+					$("#table-main").fadeIn();
+				},30)
+				break;
+			}
+		})
+		//下拉框插件启用
+		$( ".jui-btn-select" ).css('width','150px').selectmenu();
+		//搜索框隐藏显示
+		$(".jui-search-icon").click(function(){
+			$(this).parent().hasClass("jui-hide")?$(this).parent().removeClass("jui-hide"):$(this).parent().addClass("jui-hide");
+		})
+		//百度图表
+		// 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '图标展示示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['战斗力','潜力值']
+            },
+            xAxis: {
+                data: ["赵日天","叶良辰","龙傲天","斯巴达","金刚","吕布"],
+            },
+            yAxis: {},
+            series: [{
+                name: '战斗力',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20],
+                itemStyle:{
+                	normal:{
+                		color:'#8bf15f'
+                	}
+                }
+            },{
+                name: '潜力值',
+                type: 'bar',
+                data: [20, 15, 36, 10, 10, 25],
+                 itemStyle:{
+                	normal:{
+                		color:'#54d6de'
+                	}
+                }
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+        //图表自适应
+        var vieww = $("#echarts").width();
+        var ClassTheme = 0;
+        setInterval(function(){
+        	var w = $("#echarts").width();
+        	
+        	if($('body').hasClass('jui-science-theme')&&ClassTheme == 1){
+        		option.xAxis.axisLine = {
+        			lineStyle:{
+                    color:'#fff',
+                	}
+        		}
+        		option.yAxis.axisLine = {
+        			lineStyle:{
+                    color:'#fff',
+                	}
+        		}
+        		option.title.textStyle = {
+        			color:'#fff'
+        		};
+        		option.legend.textStyle = {
+        			color:'#fff'
+        		};
+        		option.textStyle={
+        			color:'#fff'
+        		};
+        		myChart.setOption(option);
+        		myChart.resize();
+        	}else{
+        		ClassTheme = 1;
+        		option.xAxis.axisLine = {
+        			lineStyle:{
+                    color:'#333',
+                	}
+        		}
+        		option.yAxis.axisLine = {
+        			lineStyle:{
+                    color:'#333',
+                	}
+        		}
+        		option.legend.textStyle = {
+        			color:'#333'
+        		};
+        		option.title.textStyle = {
+        			color:'#333'
+        		};
+        		option.textStyle={
+        			color:'#333'
+        		};
+        		myChart.setOption(option);
+        	}
+        	if(vieww != w){
+        		vieww = w;
+        		myChart.resize();
+        	}
+        },300)
+})
+</script>

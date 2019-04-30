@@ -114,7 +114,7 @@ public class UserController extends BaseController {
             List<User> oldUser= userService.getUserByUserNameAndPhone(inMap);
             if(oldUser==null || oldUser.isEmpty()){
                 user.setUserType(CommonConstant.CONTROL_DATA_TYPE);
-                user.setPassword(ShiroUtil.sha256Hash(Md5Util.getMD5Str(CommonConstant.DEFAULT_PWD)));
+                user.setPassword(ShiroUtil.sha256Hash(Md5Util.MD5Encode(CommonConstant.DEFAULT_PWD)));
                 user.setStatus(CommonConstant.STATUS_E);
                 user.setGroupId(groupId);
                 userService.saveUser(user,roleIds);

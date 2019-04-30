@@ -6,7 +6,7 @@ import com.cn.platform.managecenter.entity.log.OperateLog;
 import java.util.List;
 import java.util.Map;
 
-public interface OperateLogMapper {
+public interface OperateLogMapper{
 
     int deleteByPrimaryKey(Integer id);
 

@@ -60,7 +60,6 @@ public class AuthController extends BaseController {
     @PostMapping("/loginUp")
     @ResponseBody
     public OutMsg<String> loginUp(@RequestParam String username, @RequestParam String password, @RequestParam  String randImg){
-
         OutMsg<String> outMsg = new OutMsg<String>();
         String msg = "";
         UsernamePasswordToken usernamePasswordToken=new UsernamePasswordToken(username, ShiroUtil.sha256Hash(password));

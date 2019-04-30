@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title></title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="../assets/css/bootstrap.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/font-awesome.css?t=es5i5" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="../assets/css/bootstrap-duallistbox.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/bootstrap-multiselect.css?t=es5i5" />
+		<link rel="stylesheet" href="../assets/css/select2.css?t=es5i5" />
+
+		
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="../assets/css/ace-fonts.css?t=es5i5" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="../assets/css/ace.css?t=es5i5" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="../assets/css/ace-part2.css?t=es5i5" class="ace-main-stylesheet" />
+		<![endif]-->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="../assets/css/ace-ie.css?t=es5i5" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="../assets/js/ace-extra.min.js?t=es5i5"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="../assets/js/html5shiv.js"></script>
+		<script src="../assets/js/respond.js"></script>
+		<![endif]-->
+
+		<!--添加修改文件-->
+		<link rel="stylesheet" href="../assets/css/jui.css" />
+	</head>
+<body style="background-color:#fff">
+<div style="width: 80%;margin:auto;">
+	<div class="relevancetable margin-top">
+		<div class="relevance-head padding-content margin-bottom" name="standard">
+			<div class="clearfix">
+				<div class="checkbox input-min relevance-checkbox">
+					<label>
+						<input name="form-field-checkbox" type="checkbox" class="ace" />
+						<span class="lbl"></span>
+						<input type="text"/>
+					</label>
+					<label>
+						<input name="form-field-checkbox" type="checkbox" class="ace" />
+						<span class="lbl"></span>
+						<input type="text"/>
+					</label>
+					<label>
+						<input name="form-field-checkbox" type="checkbox" class="ace" />
+						<span class="lbl"></span>
+						<input type="text"/>
+					</label>
+				</div>
+			</div>
+			<div class="align-center">
+				<button type="button" class="btn btn-lightgreen" style="width: 100px;">确定</button>
+			</div>
+		</div>
+		<div class="relevance-content"  name="standard">
+			<table class="table table-striped table-bordered table-hover min-input">
+				<thead>
+					<tr>
+						<th>颜色</th>
+						<th>原价</th>
+						<th>购买价</th>
+						<th>购买展示价</th>
+						<th><div>合约价</div>
+						<div class="text-danger">选择合约机才要填</div></th>
+						<th><div>合约展示价</div>
+						<div class="text-danger">选择合约机才要填</div>
+						</th>
+						<th>库存</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr style="display: none;">
+						<td>
+							<div class="relevance-label"></div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="btn-group">
+							<a class="t-btn">保存</a>
+						</div>
+						</td>
+					</tr>
+					<tr style="display: none;">
+						<td>
+							<div class="relevance-label"></div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="btn-group">
+							<a class="t-btn">保存</a>
+						</div>
+						</td>
+					</tr>
+					<tr style="display: none;">
+						<td>
+							<div class="relevance-label"></div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="emphasis">
+								<input type="text" feature="price"/>
+							</div>
+						</td>
+						<td>
+							<div class="btn-group">
+							<a class="t-btn">保存</a>
+						</div>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../assets/js/jquery.min.js?t=es5i5"></script>
+<script>
+	//关联局部
+	$(".relevance-head[name='standard'] .relevance-checkbox input[type='checkbox']").change(function(){
+		var val =$(this).is(':checked');
+		var i = $(".relevance-head[name='standard'] label").index($(this).parent());
+		if(val){
+			$(".relevance-content[name='standard'] tbody tr").eq(i).fadeIn(300);
+		}else{
+			$(".relevance-content[name='standard'] tbody tr").eq(i).fadeOut(300);
+		}
+	})
+	$(".relevance-head[name='standard'] .relevance-checkbox input[type='text']").keyup(function(){
+		var val =$(this).val();
+		var i = $(".relevance-head[name='standard'] label").index($(this).parent());
+		$(".relevance-content[name='standard'] tbody tr").eq(i).find(".relevance-label").text(val);
+	})
+</script>
