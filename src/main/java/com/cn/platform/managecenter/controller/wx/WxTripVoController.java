@@ -2,11 +2,15 @@ package com.cn.platform.managecenter.controller.wx;
 
 import com.cn.platform.managecenter.controller.BaseController;
 import com.cn.platform.managecenter.entity.AjaxVo;
+import com.cn.platform.managecenter.entity.wx.WxLoginVo;
 import com.cn.platform.managecenter.entity.wx.WxTripVo;
 import com.cn.platform.managecenter.service.wx.WxLoginVoService;
 import com.cn.platform.managecenter.service.wx.WxTripVoService;
+import com.cn.platform.managecenter.utils.PageParam;
+import com.cn.platform.managecenter.utils.TableResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,13 +32,13 @@ public class WxTripVoController extends BaseController {
 
     @RequestMapping("wxAddTrip")
     @ResponseBody
-    public AjaxVo wxAddTrip(WxTripVo wxUserVo){
+    public AjaxVo wxAddTrip(WxTripVo wxTripVo){
         AjaxVo ajaxVo = new AjaxVo();
         try {
             Map<String,String> headerMap = getRequestHeader();
             boolean isLoginToken = loginVoService.isLoginToken(headerMap);
             if(isLoginToken) {
-                long retCode = wxTripVoService.addWxTrip(wxUserVo);
+                long retCode = wxTripVoService.addWxTrip(wxTripVo);
                 if (retCode == -1) {
                     ajaxVo.setMsg("wxTrip添加成功");
                     ajaxVo.setCode(AjaxVo.SUCCESS);
@@ -56,19 +60,27 @@ public class WxTripVoController extends BaseController {
 
     @RequestMapping("wxUpdateTrip")
     @ResponseBody
-    public AjaxVo wxUpdateTrip(WxTripVo wxUserVo){
+    public AjaxVo wxUpdateTrip(WxTripVo wxTripVo){
         AjaxVo ajaxVo = new AjaxVo();
+        Map<String,Object> inMap = new HashMap<>();
         try {
             Map<String,String> headerMap = getRequestHeader();
             boolean isLoginToken = loginVoService.isLoginToken(headerMap);
             if(isLoginToken) {
-                long retCode = wxTripVoService.updateWxTrip(wxUserVo);
-                if (retCode == -1) {
-                    ajaxVo.setMsg("wxTrip更新成功");
-                    ajaxVo.setCode(AjaxVo.SUCCESS);
-                } else {
-                    ajaxVo.setMsg("wxTrip更新失败");
-                    ajaxVo.setCode(AjaxVo.ERROR);
+                inMap.put("loginToken",headerMap.get("loginToken"));
+                List<WxLoginVo> loginVoList = loginVoService.qryWxLoginListPara(inMap);
+                if(!loginVoList.isEmpty() && loginVoList.size()>0){
+                    long uId = loginVoList.get(0).getLoginId();
+                    if(uId==wxTripVo.getUId()){
+                        long retCode = wxTripVoService.updateWxTrip(wxTripVo);
+                        if (retCode == -1) {
+                            ajaxVo.setMsg("wxTrip更新成功");
+                            ajaxVo.setCode(AjaxVo.SUCCESS);
+                        } else {
+                            ajaxVo.setMsg("wxTrip更新失败");
+                            ajaxVo.setCode(AjaxVo.ERROR);
+                        }
+                    }
                 }
             }else{
                 ajaxVo.setMsg("请先登录");
@@ -136,4 +148,55 @@ public class WxTripVoController extends BaseController {
         }
         return ajaxVo;
     }
+
+    @ResponseBody
+    @GetMapping("/qryMyWxTripListPage")
+    public AjaxVo qryMyWxTripListPage(PageParam pageParam){
+        AjaxVo ajaxVo = new AjaxVo();
+        TableResult tableResult=null;
+        Map<String,Object> inMap= new HashMap<>();
+        try{
+            Map<String,String> headerMap = getRequestHeader();
+            boolean isLoginToken = loginVoService.isLoginToken(headerMap);
+            if(isLoginToken) {
+                if(pageParam.getOtherParams()!=null){
+                    inMap=pageParam.getOtherParams();
+                }
+                tableResult =wxTripVoService.qryWxTripListPage(pageParam.getPageNum(),pageParam.getPageSize(),inMap);
+                ajaxVo.setObj(tableResult);
+                ajaxVo.setCode(AjaxVo.SUCCESS);
+            }else{
+                ajaxVo.setMsg("请先登录");
+                ajaxVo.setCode(AjaxVo.ERROR);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            ajaxVo.setMsg(e.getMessage());
+            ajaxVo.setCode(AjaxVo.ERROR);
+        }
+        return ajaxVo;
+    }
+
+    @ResponseBody
+    @GetMapping("/qryWxTripListPage")
+    public AjaxVo qryWxTripListPage(PageParam pageParam){
+        AjaxVo ajaxVo = new AjaxVo();
+        TableResult tableResult=null;
+        Map<String,Object> inMap= new HashMap<>();
+        try{
+            if(pageParam.getOtherParams()!=null){
+                inMap=pageParam.getOtherParams();
+            }
+            tableResult =wxTripVoService.qryWxTripListPage(pageParam.getPageNum(),pageParam.getPageSize(),inMap);
+            ajaxVo.setObj(tableResult);
+        }catch (Exception e){
+            e.printStackTrace();
+            ajaxVo.setMsg(e.getMessage());
+            ajaxVo.setCode(AjaxVo.ERROR);
+        }
+        return ajaxVo;
+    }
+
+
 }

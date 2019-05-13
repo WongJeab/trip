@@ -119,7 +119,6 @@ public class WxLoginVoController {
             ajaxVo.setMsg(e.getMessage());
             ajaxVo.setCode(AjaxVo.ERROR);
         }
-        //电话  密码
         return ajaxVo;
     }
 
