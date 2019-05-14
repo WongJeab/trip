@@ -1,5 +1,6 @@
 package com.cn.platform.managecenter.service.wx.impl;
 
+import com.cn.platform.managecenter.constant.TripConstant;
 import com.cn.platform.managecenter.dao.def.wx.WxTripVoMapper;
 import com.cn.platform.managecenter.entity.wx.WxTripVo;
 import com.cn.platform.managecenter.service.wx.WxTripVoService;
@@ -23,6 +24,7 @@ public class WxTripVoServiceImpl implements WxTripVoService {
     public int addWxTrip(WxTripVo wxTripVo) {
         int retCode = -1;
         try {
+            wxTripVo.setStatus(TripConstant.STATUS_E);
             wxTripVoDao.addWxTrip(wxTripVo);
             retCode = 0;
         } catch (Exception e) {

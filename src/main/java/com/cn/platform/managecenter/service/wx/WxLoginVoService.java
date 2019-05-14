@@ -11,19 +11,19 @@ import java.util.Map;
  * Date: 2019/04/29 15:02
  */
 public interface WxLoginVoService {
-    public int addWxLogin(WxLoginVo wxLoginVo);
+    int addWxLogin(WxLoginVo wxLoginVo);
 
 
-    public int updateWxLogin(WxLoginVo wxLoginVo);
+    int updateWxLogin(WxLoginVo wxLoginVo);
 
 
-    public List<WxLoginVo> qryWxLoginListPara(Map<String, Object> inMap);
+    List<WxLoginVo> qryWxLoginListPara(Map<String, Object> inMap);
 
 
-    public int deleteWxLogin(long id);
+    int deleteWxLogin(long id);
 
 
     TableResult qryWxTripListPage(Integer pageNum, Integer pageSize, Map<String, Object> inMap);
 
-    boolean isLoginToken(Map<String,String> headerMap);
+    Map<String,Object> isLoginToken(Map<String,String> headerMap);
 }

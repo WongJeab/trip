@@ -1,6 +1,7 @@
 package com.cn.platform.managecenter.controller.wx;
 
 import com.cn.platform.managecenter.entity.AjaxVo;
+import com.cn.platform.managecenter.entity.wx.WxLoginVo;
 import com.cn.platform.managecenter.entity.wx.WxUserVo;
 import com.cn.platform.managecenter.service.wx.WxLoginVoService;
 import com.cn.platform.managecenter.service.wx.WxUserVoService;
@@ -49,6 +50,14 @@ public class WxLoginVoController {
                     String secret = TokenUtil.getApiSecret(uuid);
                     String loginToken = TokenUtil.getLoginToken(userId,sysTime,uuid);
                     String apiToken = TokenUtil.getApiToken(userId,sysTime,uuid,secret);
+                    WxLoginVo wxLoginVo = new WxLoginVo();
+                    wxLoginVo.setLoginId(userId);
+                    wxLoginVo.setUuid(uuid);
+                    wxLoginVo.setSysTime(sysTime);
+                    wxLoginVo.setLoginToken(loginToken);
+                    wxLoginVo.setApiToken(apiToken);
+                    wxLoginVoService.addWxLogin(wxLoginVo);
+
                     cookieMap.put("secret",secret);
                     cookieMap.put("loginToken",loginToken);
                     cookieMap.put("apiToken",apiToken);

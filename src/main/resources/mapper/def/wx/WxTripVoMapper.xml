@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.platform.managecenter.dao.def.wx.WxTripVoMapper" >
   <resultMap id="wxTripMap" type="com.cn.platform.managecenter.entity.wx.WxTripVo" >
-      <result property="id" column="id" javaType="BIGINT"/>
-      <result property="uId" column="uId" javaType="BIGINT"/>
-      <result property="startPlace" column="startPlace" javaType="VARCHAR"/>
-      <result property="endPlace" column="endPlace" javaType="VARCHAR"/>
-      <result property="num" column="num" javaType="INTEGER"/>
-      <result property="type" column="type" javaType="INTEGER"/>
-      <result property="goStartDate" column="goStartDate" javaType="VARCHAR"/>
-      <result property="goEndDate" column="goEndDate" javaType="VARCHAR"/>
-      <result property="updateTime" column="updateTime" javaType="Date"/>
-      <result property="createTime" column="createTime" javaType="Date"/>
-      <result property="status" column="status" javaType="VARCHAR"/>
-      <result property="remark" column="remark" javaType="VARCHAR"/>
+      <result property="id" column="id" jdbcType="BIGINT"/>
+      <result property="uId" column="uId" jdbcType="BIGINT"/>
+      <result property="startPlace" column="startPlace" jdbcType="VARCHAR"/>
+      <result property="endPlace" column="endPlace" jdbcType="VARCHAR"/>
+      <result property="num" column="num" jdbcType="INTEGER"/>
+      <result property="type" column="type" jdbcType="INTEGER"/>
+      <result property="goStartDate" column="goStartDate" jdbcType="VARCHAR"/>
+      <result property="goEndDate" column="goEndDate" jdbcType="VARCHAR"/>
+      <result property="updateTime" column="updateTime" jdbcType="DATE"/>
+      <result property="createTime" column="createTime" jdbcType="DATE"/>
+      <result property="status" column="status" jdbcType="VARCHAR"/>
+      <result property="remark" column="remark" jdbcType="VARCHAR"/>
   </resultMap>
 
     <sql id="wxTrip_column">
@@ -21,28 +21,28 @@
     </sql>
     <insert id="addWxTrip" parameterType="com.cn.platform.managecenter.entity.wx.WxTripVo">
           INSERT into trip_wx_trip(uId,startPlace,endPlace,num,`type`,goStartDate,goEndDate,updateTime,createTime,status,remark)
-          VALUES(#{uId,javaType=BIGINT},#{startPlace,javaType=VARCHAR},#{endPlace,javaType=VARCHAR},#{num,javaType=INTEGER},#{type,javaType=INTEGER},
-          #{goStartDate,javaType=VARCHAR},#{goEndDate,javaType=VARCHAR},now(),now(),#{status,javaType=VARCHAR},#{remark,javaType=VARCHAR})
+          VALUES(#{uId,jdbcType=BIGINT},#{startPlace,jdbcType=VARCHAR},#{endPlace,jdbcType=VARCHAR},#{num,jdbcType=INTEGER},#{type,jdbcType=INTEGER},
+          #{goStartDate,jdbcType=VARCHAR},#{goEndDate,jdbcType=VARCHAR},now(),now(),#{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateWxTripStatus" parameterType="long">
         update trip_wx_trip set
         updateTime = now(),
         status ="D"
-        where id =  #{id,javaType=BIGINT}
+        where id =  #{id,jdbcType=BIGINT}
     </update>
 
     <update id="updateWxTrip" parameterType="com.cn.platform.managecenter.entity.wx.WxTripVo">
         update trip_wx_trip set
-        startPlace = #{startPlace,javaType=VARCHAR},
-        endPlace = #{endPlace,javaType=VARCHAR},
-        num = #{num,javaType=INTEGER},
-        `type` = #{type,javaType=INTEGER},
-        goStartDate = #{goStartDate,javaType=VARCHAR},
-        goEndDate = #{goEndDate,javaType=VARCHAR},
+        startPlace = #{startPlace,jdbcType=VARCHAR},
+        endPlace = #{endPlace,jdbcType=VARCHAR},
+        num = #{num,jdbcType=INTEGER},
+        `type` = #{type,jdbcType=INTEGER},
+        goStartDate = #{goStartDate,jdbcType=VARCHAR},
+        goEndDate = #{goEndDate,jdbcType=VARCHAR},
         updateTime = now(),
-        remark = #{remark,javaType=VARCHAR}
-        where id =  #{id,javaType=BIGINT}
+        remark = #{remark,jdbcType=VARCHAR},
+        where id =  #{id,jdbcType=BIGINT}
     </update>
     <delete id="deleteWxTrip" parameterType="long">
         delete from trip_wx_trip where id = #{id}
@@ -50,19 +50,19 @@
 
     <sql id="qry_where">
         <if test="id != null and id != ''">
-            u.id = #{id}
+            and u.id = #{id}
         </if>
         <if test="uId != null and uId != ''">
-            u.uId = #{uId}
+            and u.uId = #{uId}
         </if>
         <if test="startPlace != null and startPlace != ''">
-            u.startPlace like concat('%',#{startPlace},'%')
+            and u.startPlace like concat('%',#{startPlace},'%')
         </if>
         <if test="endPlace != null and endPlace != ''">
-            u.name like concat('%',#{endPlace},'%')
+            and u.name like concat('%',#{endPlace},'%')
         </if>
         <if test="goDate != null and goDate != ''">
-            STR_TO_DATE(u.goDate,'%Y-%m-%d') BETWEEN STR_TO_DATE(u.goStartDate,'%Y-%m-%d') and STR_TO_DATE(u.goEndDate,'%Y-%m-%d')
+            and  STR_TO_DATE(u.goDate,'%Y-%m-%d') BETWEEN STR_TO_DATE(u.goStartDate,'%Y-%m-%d') and STR_TO_DATE(u.goEndDate,'%Y-%m-%d')
         </if>
     </sql>
     <select id="qryWxTripListPara" parameterType="map" resultMap="wxTripMap">

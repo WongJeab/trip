@@ -2,34 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.platform.managecenter.dao.def.wx.WxUserVoMapper" >
   <resultMap id="wxUserMap" type="com.cn.platform.managecenter.entity.wx.WxUserVo" >
-      <result property="id" column="id" javaType="BIGINT"/>
-      <result property="city" column="city" javaType="VARCHAR"/>
-      <result property="province" column="province" javaType="VARCHAR"/>
-      <result property="nickname" column="nickname" javaType="VARCHAR"/>
-      <result property="phone" column="phone" javaType="VARCHAR"/>
-      <result property="pwd" column="pwd" javaType="VARCHAR"/>
-      <result property="name" column="name" javaType="VARCHAR"/>
-      <result property="createTime" column="createTime" javaType="Date"/>
-      <result property="remark" column="remark" javaType="VARCHAR"/>
+      <result property="id" column="id" jdbcType="BIGINT"/>
+      <result property="city" column="city" jdbcType="VARCHAR"/>
+      <result property="province" column="province" jdbcType="VARCHAR"/>
+      <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+      <result property="phone" column="phone" jdbcType="VARCHAR"/>
+      <result property="pwd" column="pwd" jdbcType="VARCHAR"/>
+      <result property="name" column="name" jdbcType="VARCHAR"/>
+      <result property="createTime" column="createTime" jdbcType="DATE"/>
+      <result property="remark" column="remark" jdbcType="VARCHAR"/>
   </resultMap>
 
     <sql id="wxUser_column">
         u.id,u.city,u.province,u.phone,u.nickname,u.`name`,u.pwd,u.createTime,u.remark
     </sql>
 
-    <insert id="addWxUser" parameterType="com.cn.platform.managecenter.entity.wx.WxUserVo" useGeneratedKeys="true" keyProperty="wxUserVo.id">
+    <insert id="addWxUser" parameterType="com.cn.platform.managecenter.entity.wx.WxUserVo" useGeneratedKeys="true" keyProperty="id">
         insert into trip_wx_user(city,province,phone,nickname,`name`,pwd,createTime,remark)
-        values (#{city,javaType=VARCHAR},#{province,javaType=VARCHAR},#{phone,javaType=VARCHAR},
-        #{nickname,javaType=VARCHAR},#{name,javaType=VARCHAR},#{pwd,javaType=VARCHAR},now(),#{remark,javaType=VARCHAR},)
+        values (#{city,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},
+        #{nickname,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{pwd,jdbcType=VARCHAR},now(),#{remark,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateWxUser" parameterType="com.cn.platform.managecenter.entity.wx.WxUserVo">
         update trip_wx_user set
-        phone = #{phone,javaType=BIGINT},
-        `name` = #{name,javaType=VARCHAR},
-        pwd = #{pwd,javaType=BIGINT},
-        remark = #{remark,javaType=VARCHAR}
-        where id =  #{id,javaType=BIGINT}
+        phone = #{phone,jdbcType=BIGINT},
+        `name` = #{name,jdbcType=VARCHAR},
+        pwd = #{pwd,jdbcType=BIGINT},
+        remark = #{remark,jdbcType=VARCHAR},
+        where id =  #{id,jdbcType=BIGINT}
     </update>
     <delete id="deleteWxUser">
          delete from trip_wx_user where id = #{id}
@@ -37,19 +37,19 @@
 
     <sql id="qry_where">
         <if test="id != null and id != ''">
-            u.id = #{id}
+           and u.id = #{id}
         </if>
         <if test="phone != null and phone != ''">
-            u.phone = #{phone}
+            and u.phone = #{phone}
         </if>
         <if test="pwd != null and pwd != ''">
-            u.pwd = #{pwd}
+            and u.pwd = #{pwd}
         </if>
         <if test="name != null and name != ''">
-            u.name like concat('%',#{concat},'%')
+            and u.name like concat('%',#{concat},'%')
         </if>
         <if test="nickname != null and nickname != ''">
-            u.name like concat('%',#{nickname},'%')
+            and u.name like concat('%',#{nickname},'%')
         </if>
     </sql>
     <select id="qryWxUserListPara" parameterType="map" resultMap="wxUserMap">

@@ -74,7 +74,8 @@ public class WxLoginVoServiceImpl implements WxLoginVoService {
     }
 
     @Override
-    public boolean isLoginToken(Map<String,String> headerMap) {
+    public Map<String,Object> isLoginToken(Map<String,String> headerMap) {
+        Map<String,Object> outMap = new HashMap<>();
         boolean bool = false;
         Map<String,Object> inMap = new HashMap<>();
         if(StringUtils.isNotBlank(headerMap.get("loginToken"))){
@@ -82,8 +83,17 @@ public class WxLoginVoServiceImpl implements WxLoginVoService {
             List<WxLoginVo>  loginVoList = wxLoginVoDao.qryWxLoginListPara(inMap);
             if(!loginVoList.isEmpty() && loginVoList.size()>0){
                 bool = true;
+                outMap.put("loginFlag",bool);
+                outMap.put("wxLoginVo",loginVoList.get(0));
+                outMap.put("loginMsg","查询成功");
+            }else{
+                outMap.put("loginFlag",bool);
+                outMap.put("loginMsg","查询失败");
             }
+        }else{
+            outMap.put("loginFlag",bool);
+            outMap.put("loginMsg","未登录");
         }
-       return bool;
+       return outMap;
     }
 }

@@ -1,5 +1,6 @@
 package com.cn.platform.managecenter.controller.wx;
 
+import com.cn.platform.managecenter.constant.TripConstant;
 import com.cn.platform.managecenter.controller.BaseController;
 import com.cn.platform.managecenter.entity.AjaxVo;
 import com.cn.platform.managecenter.entity.wx.WxLoginVo;
@@ -36,10 +37,12 @@ public class WxTripVoController extends BaseController {
         AjaxVo ajaxVo = new AjaxVo();
         try {
             Map<String,String> headerMap = getRequestHeader();
-            boolean isLoginToken = loginVoService.isLoginToken(headerMap);
-            if(isLoginToken) {
+            Map<String,Object> checkMap = loginVoService.isLoginToken(headerMap);
+            if(TripConstant.BOOLEAN_TRUE.equals(checkMap.get("loginFlag").toString())) {
+                WxLoginVo wxLoginVo = (WxLoginVo) checkMap.get("wxLoginVo");
+                wxTripVo.setUId(wxLoginVo.getLoginId());
                 long retCode = wxTripVoService.addWxTrip(wxTripVo);
-                if (retCode == -1) {
+                if (retCode != -1) {
                     ajaxVo.setMsg("wxTrip添加成功");
                     ajaxVo.setCode(AjaxVo.SUCCESS);
                 } else {
@@ -65,21 +68,17 @@ public class WxTripVoController extends BaseController {
         Map<String,Object> inMap = new HashMap<>();
         try {
             Map<String,String> headerMap = getRequestHeader();
-            boolean isLoginToken = loginVoService.isLoginToken(headerMap);
-            if(isLoginToken) {
-                inMap.put("loginToken",headerMap.get("loginToken"));
-                List<WxLoginVo> loginVoList = loginVoService.qryWxLoginListPara(inMap);
-                if(!loginVoList.isEmpty() && loginVoList.size()>0){
-                    long uId = loginVoList.get(0).getLoginId();
-                    if(uId==wxTripVo.getUId()){
-                        long retCode = wxTripVoService.updateWxTrip(wxTripVo);
-                        if (retCode == -1) {
-                            ajaxVo.setMsg("wxTrip更新成功");
-                            ajaxVo.setCode(AjaxVo.SUCCESS);
-                        } else {
-                            ajaxVo.setMsg("wxTrip更新失败");
-                            ajaxVo.setCode(AjaxVo.ERROR);
-                        }
+            Map<String,Object> checkMap = loginVoService.isLoginToken(headerMap);
+            if(TripConstant.BOOLEAN_TRUE.equals(checkMap.get("loginFlag").toString())) {
+                WxLoginVo wxLoginVo = (WxLoginVo) checkMap.get("wxLoginVo");
+                if(wxLoginVo.getLoginId()==wxTripVo.getUId()){
+                    long retCode = wxTripVoService.updateWxTrip(wxTripVo);
+                    if (retCode == -1) {
+                        ajaxVo.setMsg("wxTrip更新成功");
+                        ajaxVo.setCode(AjaxVo.SUCCESS);
+                    } else {
+                        ajaxVo.setMsg("wxTrip更新失败");
+                        ajaxVo.setCode(AjaxVo.ERROR);
                     }
                 }
             }else{
@@ -103,8 +102,8 @@ public class WxTripVoController extends BaseController {
         Map<String,Object> retMap = new HashMap<>();
         try {
             Map<String,String> headerMap = getRequestHeader();
-            boolean isLoginToken = loginVoService.isLoginToken(headerMap);
-            if(isLoginToken){
+            Map<String,Object> checkMap = loginVoService.isLoginToken(headerMap);
+            if(TripConstant.BOOLEAN_TRUE.equals(checkMap.get("loginFlag").toString())) {
                 List<WxTripVo> wxUserVoList = wxTripVoService.qryWxTripListPara(inMap);
                 retMap.put("wxUserVoList",wxUserVoList);
                 ajaxVo.setMsg("查询成功");
@@ -127,8 +126,8 @@ public class WxTripVoController extends BaseController {
         AjaxVo ajaxVo = new AjaxVo();
         try {
             Map<String,String> headerMap = getRequestHeader();
-            boolean isLoginToken = loginVoService.isLoginToken(headerMap);
-            if(isLoginToken) {
+            Map<String,Object> checkMap = loginVoService.isLoginToken(headerMap);
+            if(TripConstant.BOOLEAN_TRUE.equals(checkMap.get("loginFlag").toString())) {
                 long retCode = wxTripVoService.deleteWxTrip(id);
                 if (retCode == -1) {
                     ajaxVo.setMsg("wxTrip删除成功");
@@ -155,16 +154,19 @@ public class WxTripVoController extends BaseController {
         AjaxVo ajaxVo = new AjaxVo();
         TableResult tableResult=null;
         Map<String,Object> inMap= new HashMap<>();
+        Map<String,Object> objMap= new HashMap<>();
         try{
             Map<String,String> headerMap = getRequestHeader();
-            boolean isLoginToken = loginVoService.isLoginToken(headerMap);
-            if(isLoginToken) {
+            Map<String,Object> checkMap = loginVoService.isLoginToken(headerMap);
+            if(TripConstant.BOOLEAN_TRUE.equals(checkMap.get("loginFlag").toString())) {
                 if(pageParam.getOtherParams()!=null){
                     inMap=pageParam.getOtherParams();
                 }
                 tableResult =wxTripVoService.qryWxTripListPage(pageParam.getPageNum(),pageParam.getPageSize(),inMap);
-                ajaxVo.setObj(tableResult);
+                objMap.put("myTripList",tableResult);
+                ajaxVo.setObj(objMap);
                 ajaxVo.setCode(AjaxVo.SUCCESS);
+                ajaxVo.setMsg("个人列表查询成功");
             }else{
                 ajaxVo.setMsg("请先登录");
                 ajaxVo.setCode(AjaxVo.ERROR);
@@ -184,12 +186,16 @@ public class WxTripVoController extends BaseController {
         AjaxVo ajaxVo = new AjaxVo();
         TableResult tableResult=null;
         Map<String,Object> inMap= new HashMap<>();
+        Map<String,Object> objMap= new HashMap<>();
         try{
             if(pageParam.getOtherParams()!=null){
                 inMap=pageParam.getOtherParams();
             }
             tableResult =wxTripVoService.qryWxTripListPage(pageParam.getPageNum(),pageParam.getPageSize(),inMap);
-            ajaxVo.setObj(tableResult);
+            objMap.put("myTripList",tableResult);
+            ajaxVo.setObj(objMap);
+            ajaxVo.setCode(AjaxVo.SUCCESS);
+            ajaxVo.setMsg("ALL列表查询成功");
         }catch (Exception e){
             e.printStackTrace();
             ajaxVo.setMsg(e.getMessage());
